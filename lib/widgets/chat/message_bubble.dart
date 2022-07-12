@@ -8,6 +8,7 @@ class MessageBubble extends StatelessWidget {
   final String message;
   final bool isMe;
   final Key key;
+
   final String userId;
   @override
   Widget build(BuildContext context) {
@@ -28,6 +29,8 @@ class MessageBubble extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
           margin: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
           child: Column(
+            crossAxisAlignment:
+                isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start,
             children: <Widget>[
               FutureBuilder<Object>(
                   future: Firestore.instance
@@ -39,18 +42,23 @@ class MessageBubble extends StatelessWidget {
                       return Text('Loading...');
                     }
                     return Text(
-                      snapshot.data['username'];
-                      userId,
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      snapshot.data['username'],
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: isMe
+                              ? Colors.black
+                              : Theme.of(context)
+                                  .accentTextTheme
+                                  .headline5
+                                  .color),
                     );
                   }),
-              Text(
-                message,
-                style: TextStyle(
-                    color: isMe
-                        ? Colors.black
-                        : Theme.of(context).accentTextTheme.headline5.color),
-              ),
+              Text(message,
+                  style: TextStyle(
+                      color: isMe
+                          ? Colors.black
+                          : Theme.of(context).accentTextTheme.headline5.color),
+                  textAlign: isMe ? TextAlign.end : TextAlign.start),
             ],
           ),
         ),
