@@ -3,11 +3,28 @@ import 'package:batcheet/widgets/chat/new_message.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({Key key}) : super(key: key);
 
   @override
+  void initState() {
+    final fbm = FirebaseMessaging();
+    fbm.requestNotifictaionPermission();
+    fbm.configure(onMessage: (msg) {
+      print(msg);
+      return;
+    }, onLaunch: (msg) {
+      print(msg);
+      return;
+    }, onResume: (msg) {
+      print(msg);
+      return;
+    });
+    super.initState();
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

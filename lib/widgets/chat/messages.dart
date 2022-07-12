@@ -1,4 +1,3 @@
-import 'package:batcheet/screens/chat_screen.dart';
 import 'package:batcheet/widgets/chat/message_bubble.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -31,9 +30,11 @@ class Messages extends StatelessWidget {
                 itemCount: chatDocs.length,
                 itemBuilder: (ctx, idx) => MessageBubble(
                   chatDocs[idx]['text'],
-                  chatDocs[idx]['userId',]
-                    chatDocs[idx]['userId'] == futureSnapshot.data.uid,
-                key: ValueKey(chatDocs[idx].documentID),
+                  chatDocs[idx]['username'],
+                  chatDocs[idx]['userImage'],
+                  chatDocs[idx]['userId'] == futureSnapshot.data.uid,
+                  key: ValueKey(chatDocs[idx].documentID),
+                ),
               );
             });
       },

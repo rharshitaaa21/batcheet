@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
 import '../chat/message_bubble.dart';
 import '../chat/messages.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -17,12 +16,14 @@ class _NewMessageState extends State<NewMessage> {
   void _sendMessage() async {
     FocusScope.of(context).unfocus();
     final user = await FirebaseAuth.instance.currentUser();
-    final userDate = await Firestore.instance.collection('users').document(userId).get();
+    final userData =
+        await Firestore.instance.collection('users').document(user).get();
     Firestore.instance.collection('chats').add({
       'text': _enteredMessage,
       'createdAt': Timestamp.now(),
       'userId': user.uid,
-      'username' : user.
+      'username': userData['username'],
+      'userImage': userData['image_url'],
     });
     _controller.clear();
   }
@@ -30,8 +31,8 @@ class _NewMessageState extends State<NewMessage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: 8),
-      padding: EdgeInsets.all(8),
+      margin: const EdgeInsets.only(top: 8),
+      padding: const EdgeInsets.all(8),
       child: Row(
         children: <Widget>[
           Expanded(
